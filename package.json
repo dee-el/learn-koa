@@ -1,0 +1,26 @@
+{
+  "name": "rewrite_with_ts",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "watch-server": "nodemon --watch 'src/**/*' -e ts,tsx --exec 'ts-node' ./src/server/app.ts"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "koa": "^2.5.1",
+    "koa-bodyparser": "^4.2.1",
+    "koa-router": "^7.4.0",
+    "pg": "^7.4.3",
+    "typeorm": "^0.2.7"
+  },
+  "devDependencies": {
+    "@types/koa": "^2.0.46",
+    "@types/koa-bodyparser": "^5.0.0",
+    "@types/koa-router": "^7.0.29",
+    "nodemon": "^1.17.5",
+    "ts-node": "^6.1.2",
+    "typescript": "^2.9.2"
+  }
+}

@@ -1,0 +1,28 @@
+[
+    {
+        "name": "payment",
+        "type": "postgres",
+        "host": "localhost",
+        "port": 5432,
+        "username": "postgres",
+        "password": "admin",
+        "database": "payment",
+        "synchronize": false,
+        "entities": [
+            "src/model/payment/**/*.ts"
+        ]
+    },
+    {
+        "name": "user",
+        "type": "postgres",
+        "host": "localhost",
+        "port": 5432,
+        "username": "postgres",
+        "password": "admin",
+        "database": "user",
+        "synchronize": false,
+        "entities": [
+            "src/model/user/**/*.ts"
+        ]
+    }
+]
