@@ -17,7 +17,7 @@ interface ILogData {
 
 function outputLog(data: Partial<ILogData>, thrownError: any) {
     if (config.prettyLog) {
-        console.log(`${data.statusCode} ${data.method} ${data.url} - ${data.responseTime}ms`);
+        console.log(`${data.statusCode} ${data.method} ${data.url} - ${data.responseTime} ms`);
         if (thrownError) {
             console.error(thrownError);
         }

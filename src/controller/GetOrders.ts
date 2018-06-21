@@ -40,3 +40,4 @@ const whereStack = (query) : Object => {
 
     return stack;
 }
+

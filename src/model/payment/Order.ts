@@ -1,5 +1,9 @@
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn } 
+import 
+{ Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, 
+    UpdateDateColumn, OneToMany } 
 from 'typeorm';
+
+import { OrderItem } from './OrderItem';
 
 const statusArray = ['created', 'canceled', 'paid', 'fulfilled', 'refunded'];
 type StatusType = 'created' | 'canceled' | 'paid' | 'fulfilled' | 'refunded';
@@ -33,4 +37,7 @@ export class Order {
 
     @UpdateDateColumn({name: 'updatedAt'})
     updatedAt: Date;
+
+    @OneToMany(type => OrderItem, orderItems => orderItems.order)
+    orderItems: OrderItem[];
 }
