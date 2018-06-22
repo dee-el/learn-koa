@@ -1,6 +1,7 @@
 import { Context } from "koa";
 import { getManager } from "typeorm";
 import { Order } from "../model/payment/Order";
+import { OrderItem } from "../model/payment/OrderItem";
 
 /**
  * Loads all orders from the database.
@@ -17,7 +18,10 @@ export const fetchOrders = async(context: Context) => {
     fetchOptions = {
         ...fetchOptions,
         skip: page * limit,
-        take: limit
+        take: limit,
+        order: {
+            orderId: 'DESC'
+        }
     };
 
     const where = whereStack(query);
@@ -25,7 +29,24 @@ export const fetchOrders = async(context: Context) => {
     if(Object.keys(where).length !== 0) fetchOptions = {...fetchOptions, where};
 
     // load all orders
-    const orders = await orderRepository.find(fetchOptions);
+    // const orders = await orderRepository.createQueryBuilder('order')
+    //     .innerJoinAndMapMany(
+    //         'order.orderItems', 
+    //         OrderItem, 'orderItem', 
+    //         '"orderItem"."orderId" = "order"."orderId"'
+    //     )
+    //     .where(fetchOptions)
+    //     .getMany();
+
+    const orders = await orderRepository.find({
+        ...fetchOptions,
+        join: {
+            alias: "order",
+            innerJoinAndSelect: {
+                orderItems: "order.orderItems",
+            }
+        }
+    });
 
     // return loaded orders
     return context.body = orders;

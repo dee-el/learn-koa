@@ -38,6 +38,6 @@ export class Order {
     @UpdateDateColumn({name: 'updatedAt'})
     updatedAt: Date;
 
-    @OneToMany(type => OrderItem, orderItems => orderItems.order)
+    @OneToMany(type => OrderItem, orderItem => orderItem.order)
     orderItems: OrderItem[];
 }

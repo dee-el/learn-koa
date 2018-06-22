@@ -1,6 +1,6 @@
 import 
 { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, 
-    UpdateDateColumn, ManyToOne } 
+    UpdateDateColumn, ManyToOne, JoinColumn } 
 from 'typeorm';
 
 import { Order } from './Order';
@@ -8,7 +8,7 @@ import { Order } from './Order';
 @Entity({name: "orderItem"})
 export class OrderItem {
 
-    @PrimaryGeneratedColumn({name: 'orderId'})
+    @PrimaryGeneratedColumn({name: 'itemId'})
     orderItemId: number;
 
     @Column({name: 'sellPrice', type: 'decimal', precision: 5, scale: 2, default: 0})
@@ -24,5 +24,6 @@ export class OrderItem {
     updatedAt: Date;
 
     @ManyToOne(type => Order, order => order.orderItems)
+    @JoinColumn({ name: "orderId" })
     order: Order;
 }

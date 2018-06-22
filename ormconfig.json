@@ -10,7 +10,8 @@
         "synchronize": false,
         "entities": [
             "src/model/payment/**/*.ts"
-        ]
+        ],
+        "logging": ["error"]
     },
     {
         "name": "user",
