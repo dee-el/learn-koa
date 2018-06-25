@@ -1,14 +1,18 @@
 import { Context } from "koa";
 import { getManager } from "typeorm";
 import { Order } from "../model/payment/Order";
-import { OrderItem } from "../model/payment/OrderItem";
+import { Payment } from "../model/payment/Payment";
+
+const repositoryManager = (model: any) => {
+    return getManager('payment').getRepository(model);
+}
 
 /**
  * Loads all orders from the database.
  */
 export const fetchOrders = async(context: Context) => {
     // get a order repository to perform operations with order
-    const orderRepository = getManager('payment').getRepository(Order);
+    const orderRepository = repositoryManager(Order);
 
     const query = context.query;
     const limit = query.limit ? +query.limit : 10;
@@ -28,28 +32,50 @@ export const fetchOrders = async(context: Context) => {
 
     if(Object.keys(where).length !== 0) fetchOptions = {...fetchOptions, where};
 
-    // load all orders
-    // const orders = await orderRepository.createQueryBuilder('order')
-    //     .innerJoinAndMapMany(
-    //         'order.orderItems', 
-    //         OrderItem, 'orderItem', 
-    //         '"orderItem"."orderId" = "order"."orderId"'
-    //     )
-    //     .where(fetchOptions)
-    //     .getMany();
-
     const orders = await orderRepository.find({
         ...fetchOptions,
         join: {
             alias: "order",
             innerJoinAndSelect: {
                 orderItems: "order.orderItems",
+                payment: "order.payment"
             }
         }
     });
 
     // return loaded orders
     return context.body = orders;
+}
+
+export const fetchPayments = async (context: Context) => {
+    const paymentRepository = repositoryManager(Payment);
+
+    const query = context.query;
+    const limit = query.limit ? +query.limit : 10;
+    const page = query.page ? +query.page - 1 : 0
+
+    let fetchOptions = {};
+    fetchOptions = {
+        ...fetchOptions,
+        skip: page * limit,
+        take: limit,
+        order: {
+            paymentId: 'DESC'
+        }
+    };
+
+    const payments = await paymentRepository.find({
+        ...fetchOptions,
+        join: {
+            alias: "payment",
+            innerJoinAndSelect: {
+                order: "payment.order"
+            }
+        }
+    });
+
+    // return loaded payments
+    return context.body = payments;
 }
 
 const whereStack = (query) : Object => {

@@ -1,4 +1,4 @@
-import { fetchOrders } from "../controller/GetOrders";
+import { fetchOrders, fetchPayments } from "../controller/GetOrders";
 import { fetchUsers } from "../controller/GetUsers";
 
 /**
@@ -14,5 +14,10 @@ export const AppRoutes = [
         path: "/users",
         method: "get",
         action: fetchUsers
+    },
+    {
+        path: "/payments",
+        method: "get",
+        action: fetchPayments
     }
 ];

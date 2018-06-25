@@ -1,9 +1,10 @@
 import 
 { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, 
-    UpdateDateColumn, OneToMany } 
+    UpdateDateColumn, OneToMany, OneToOne, JoinColumn } 
 from 'typeorm';
 
 import { OrderItem } from './OrderItem';
+import { Payment } from './Payment';
 
 const statusArray = ['created', 'canceled', 'paid', 'fulfilled', 'refunded'];
 type StatusType = 'created' | 'canceled' | 'paid' | 'fulfilled' | 'refunded';
@@ -40,4 +41,7 @@ export class Order {
 
     @OneToMany(type => OrderItem, orderItem => orderItem.order)
     orderItems: OrderItem[];
+
+    @OneToOne(type => Payment, payment => payment.order)
+    payment: Payment;
 }
