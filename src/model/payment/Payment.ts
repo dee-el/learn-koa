@@ -5,6 +5,11 @@ from 'typeorm';
 
 import {Order} from './Order';
 
+
+enum PaymentStatusEnum { 'wait', 'confirm', 'pending', 'paid', 'process', 'failed', 'refund' };
+
+type PaymentStatus = 'wait' | 'confirm' | 'pending' | 'paid' | 'process' | 'failed' | 'refund';
+
 @Entity({name: 'payment'})
 export class Payment{
     @PrimaryGeneratedColumn({name: 'paymentId'})
@@ -15,6 +20,9 @@ export class Payment{
 
     @Column({type: 'json'})
     paymentMethodDetail: Object;
+
+    @Column({name: 'paymentStatus', type: 'enum', enum: PaymentStatusEnum, default: 'pending'})
+    paymentStatus: PaymentStatus
 
     @CreateDateColumn({name: 'createdAt'})
     createdAt: Date;

@@ -1,15 +1,15 @@
 import 
 { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, 
-    UpdateDateColumn, OneToMany, OneToOne, JoinColumn } 
+    UpdateDateColumn, OneToMany, OneToOne } 
 from 'typeorm';
 
 import { OrderItem } from './OrderItem';
 import { Payment } from './Payment';
 
-const statusArray = ['created', 'canceled', 'paid', 'fulfilled', 'refunded'];
-type StatusType = 'created' | 'canceled' | 'paid' | 'fulfilled' | 'refunded';
+enum OrderStatusEnum { 'created', 'canceled', 'paid', 'fulfilled', 'refunded' };
+type Status = 'created' | 'canceled' | 'paid' | 'fulfilled' | 'refunded';
 
-const mainTypeArray = ['transfer','recharge','topup','withdraw','walletTransfer','merchant'];
+enum MainTypeEnum { 'transfer','recharge','topup','withdraw','walletTransfer','merchant' };
 type MainType =  'transfer' |'recharge' | 'topup' | 'withdraw' | 'walletTransfer' | 'merchant';
 
 @Entity()
@@ -27,10 +27,10 @@ export class Order {
     @Column({name: 'netPrice', type: 'decimal', precision: 10, scale: 2, default: 0})
     netPrice: number;
 
-    @Column({name: 'status', type: 'enum', enum: statusArray, default: 'created'})
-    status: StatusType;
+    @Column({name: 'status', type: 'enum', enum: OrderStatusEnum, default: 'created'})
+    status: Status;
 
-    @Column({name: 'mainType', type: 'enum', enum: mainTypeArray})
+    @Column({name: 'mainType', type: 'enum', enum: MainTypeEnum})
     mainType: MainType;
 
     @CreateDateColumn({name: 'createdAt'})
