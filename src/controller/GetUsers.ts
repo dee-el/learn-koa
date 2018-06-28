@@ -29,6 +29,6 @@ export const createUser = async (context: Context) => {
 
     const userRepository = repositoryManager(User);
     await userRepository.save(user);
-    return context.body = user;
     
+    return context.body = user;
 }
