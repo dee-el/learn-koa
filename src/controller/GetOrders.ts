@@ -78,6 +78,29 @@ export const fetchPayments = async (context: Context) => {
     return context.body = payments;
 }
 
+export const fetchOrderById = async (context: Context) => {
+    const orderRepository = repositoryManager(Order);
+
+    const orderId = context.params.orderId;
+    
+    let fetchOptions = {
+        where: {
+            orderId: orderId
+        },
+        join: {
+            alias: "order",
+            innerJoinAndSelect: {
+                orderItems: "order.orderItems",
+                payment: "order.payment"
+            }
+        }
+    };
+
+    const order = await orderRepository.findOne(fetchOptions);
+
+    return context.body = order;
+}
+
 const whereStack = (query) : Object => {
     let stack = {};
     if(query.userId) stack = {...stack, userId: query.userId};

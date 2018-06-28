@@ -13,8 +13,8 @@ import { AppRoutes } from "./routes";
 // TypeORM creates you connection pull to uses connections from pull on your requests
 (async () => {
     try {
-        const paymentConnection = await createConnection('payment');
-        const userConnection = await createConnection('user');
+        await createConnection('payment');
+        await createConnection('user');
         // create koa app
         const app = new Koa();
         const router = new Router();
